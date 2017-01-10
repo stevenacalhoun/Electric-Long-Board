@@ -1,6 +1,8 @@
 #include "motor.h"
 #include "triLed.h"
 #include "inputs.h"
+
+#include "colorDefs.h"
 #include "pinDefs.h"
 
 int onOffState = 0;
@@ -39,14 +41,10 @@ void loop() {
     revLight = 1 - revLight;
   }
 
-  motorSpeed = pot->read();
-
-  Serial.println(motorSpeed);
-
   if (goNeutralState == 1) {
-    motorLed->setColor(Color(revLight,(1-revLight),0), motorSpeed);
+    motorLed->setColor(Color(revLight*255,(1-revLight)*255,0), pot->read()/1024.0);
   }
   else {
-    motorLed->setColor(Color(0,0,255), 1);
+    motorLed->setColor(YELLOW, 1);
   }
 }

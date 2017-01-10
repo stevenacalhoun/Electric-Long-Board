@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#pragma once
 
 class Color {
   private:

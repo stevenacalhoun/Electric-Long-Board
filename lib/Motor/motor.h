@@ -1,3 +1,5 @@
+#pragma once
+
 enum Direction {forward, reverse};
 
 class Motor {

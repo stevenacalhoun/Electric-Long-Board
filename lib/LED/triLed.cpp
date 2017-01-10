@@ -42,6 +42,18 @@ void TriLED::writeColor() {
   analogWrite(m_bPin, m_color.b()*m_brightness);
 }
 
+void TriLED::turnOn() {
+  m_onOffStatus = HIGH;
+}
+
+void TriLED::turnOff() {
+  m_onOffStatus = LOW;
+}
+
+void TriLED::toggle() {
+  m_onOffStatus = !m_onOffStatus;
+}
+
 Color::Color() {
   r(0);
   g(0);

@@ -1,14 +1,5 @@
 #include "Arduino.h"
-
-class Button {
-  private:
-    int m_pin;
-
-  public:
-    Button(int pin);
-
-    int read();
-};
+#pragma once
 
 class Potentiometer {
   private:

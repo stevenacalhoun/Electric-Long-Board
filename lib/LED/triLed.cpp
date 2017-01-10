@@ -1,9 +1,24 @@
 #include "triLed.h"
 
 TriLED::TriLED(int rPin, int gPin, int bPin) {
-  m_color = Color();
-  m_brightness = 0;
+  TriLED(rPin, gPin, bPin, Color(), 1);
+}
 
+TriLED::TriLED(int rPin, int gPin, int bPin, Color color) {
+  TriLED(rPin, gPin, bPin, color, 1);
+}
+
+TriLED::TriLED(int rPin, int gPin, int bPin, Color color, float brightness) {
+  m_color = color;
+  m_brightness = brightness;
+
+  // Write to pins
+  setPins(rPin, gPin, bPin);
+  updateLED();
+}
+
+void TriLED::setPins(int rPin, int gPin, int bPin) {
+  // Set pins
   m_rPin = rPin;
   m_gPin = gPin;
   m_bPin = bPin;
@@ -11,47 +26,41 @@ TriLED::TriLED(int rPin, int gPin, int bPin) {
   pinMode(m_rPin, OUTPUT);
   pinMode(m_gPin, OUTPUT);
   pinMode(m_bPin, OUTPUT);
-
-  writeColor();
-}
-
-TriLED::TriLED(int rPin, int gPin, int bPin, Color color) {
-  m_color = color;
-  writeColor();
 }
 
 void TriLED::setBrightness(float brightness) {
-  m_brightness = brightness;
-  writeColor();
+  setColor(m_color, brightness);
 }
 
 void TriLED::setColor(Color color) {
-  m_color = color;
-  writeColor();
+  setColor(color, m_brightness);
 }
 
 void TriLED::setColor(Color color, float brightness) {
   m_color = color;
   m_brightness = brightness;
-  writeColor();
+  turnOn();
 }
 
-void TriLED::writeColor() {
-  analogWrite(m_rPin, m_color.r()*m_brightness);
-  analogWrite(m_gPin, m_color.g()*m_brightness);
-  analogWrite(m_bPin, m_color.b()*m_brightness);
+void TriLED::updateLED() {
+  analogWrite(m_rPin, m_color.r()*m_brightness*m_onStatus);
+  analogWrite(m_gPin, m_color.g()*m_brightness*m_onStatus);
+  analogWrite(m_bPin, m_color.b()*m_brightness*m_onStatus);
 }
 
 void TriLED::turnOn() {
-  m_onOffStatus = HIGH;
+  m_onStatus = HIGH;
+  updateLED();
 }
 
 void TriLED::turnOff() {
-  m_onOffStatus = LOW;
+  m_onStatus = LOW;
+  updateLED();
 }
 
 void TriLED::toggle() {
-  m_onOffStatus = !m_onOffStatus;
+  m_onStatus = !m_onStatus;
+  updateLED();
 }
 
 Color::Color() {
@@ -90,6 +99,7 @@ float Color::b() {
   return m_b;
 }
 
+// Reset value to 0-255
 float resetBound(float val) {
   if (val < 0) {
     return 0;

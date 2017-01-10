@@ -27,7 +27,7 @@ void loop() {
 
   // Heartbeat
   heartBeatCount++;
-  if (heartBeatCount > 1000) {
+  if (heartBeatCount > 250) {
     heartBeat = !heartBeat;
     heartBeatCount = 0;
     digitalWrite(LED_BUILTIN, heartBeat);

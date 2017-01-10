@@ -7,6 +7,7 @@
 
 #pragma once
 
+// Pin defs
 #define POT_PIN A0
 
 #define LED_R_PIN 9
@@ -22,42 +23,40 @@ class LongBoard: public Project {
     void setup();
     void loop();
 
-    int onOffState = 0;
-    float motorSpeed = 0;
-
-    int goNeutralState = 0;
-    int reverseToggleState = 0;
-    int prevReverseToggleState = 0;
-
-    int revLight = 0;
-
+    // I/O
     TriLED* motorLed;
     Potentiometer* pot;
-    Button* goNeutralButton;
+    Button* goButton;
     Button* reverseToggleButton;
+
+    // Reverse status
+    int reverse = 0;
 };
 
 LongBoard::LongBoard() {
-  motorLed = new TriLED(LED_R_PIN, LED_G_PIN, LED_B_PIN);
+  // Init I/O
+  motorLed = new TriLED(LED_R_PIN, LED_G_PIN, LED_B_PIN, YELLOW, 1);
   pot = new Potentiometer(POT_PIN);
-  goNeutralButton = new Button(GO_NEUTRAL_PIN);
+  goButton = new Button(GO_NEUTRAL_PIN);
   reverseToggleButton = new Button(REVERSE_TOGGLE_PIN);
 }
 
 void LongBoard::setup() {
-  motorLed->setColor(YELLOW, 1);
 }
 
 void LongBoard::loop() {
-  goNeutralButton->update();
+  // Update buttons
+  goButton->update();
   reverseToggleButton->update();
 
-  if (reverseToggleState != prevReverseToggleState) {
-    revLight = 1 - revLight;
+  // Toggle reverse
+  if (reverseToggleButton->hasToggled()) {
+    reverse = !reverse;
   }
 
-  if (goNeutralState == 1) {
-    motorLed->setColor(Color(revLight*255,(1-revLight)*255,0), pot->read()/1024.0);
+  // Change based on go or not
+  if (goButton->read() == 1) {
+    motorLed->setColor(Color(reverse*255,(!reverse)*255,0), pot->read()/1024.0);
   }
   else {
     motorLed->setColor(YELLOW, 1);

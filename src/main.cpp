@@ -1,6 +1,7 @@
 #include <project.h>
-#include "LongBoard.h"
-#include "ButtonTest.h"
+#include "Arduino.h"
+
+#include "TriLight.h"
 
 Project* proj;
 int heartBeatCount = 0;
@@ -8,7 +9,7 @@ int heartBeat = HIGH;
 
 void setup() {
   // Choose project here
-  proj = new LongBoard();
+  proj = new TriLight();
 
   // Basic setup
   Serial.begin(9600);

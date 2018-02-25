@@ -1,4 +1,6 @@
 #include "Arduino.h"
+#include <color.h>
+
 #pragma once
 
 // Common colors
@@ -6,26 +8,6 @@
 #define RED Color(255,0,0)
 #define GREEN Color(0,255,0)
 #define BLUE Color(0,0,255)
-
-// Color
-class Color {
-  private:
-    float m_r;
-    float m_g;
-    float m_b;
-
-  public:
-    Color();
-    Color(float r, float g, float b);
-
-    // Getter/setter for each channel
-    float r();
-    float g();
-    float b();
-    void r(float val);
-    void g(float val);
-    void b(float val);
-};
 
 // Tri Color LED
 class TriLED {

@@ -11,6 +11,7 @@ class Color {
     Color(float r, float g, float b);
 
     bool operator==(Color other);
+    bool operator!=(Color other);
 
     // Getter/setter for each channel
     float r();

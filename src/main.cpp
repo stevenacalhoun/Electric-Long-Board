@@ -1,7 +1,7 @@
 #include <project.h>
 #include "Arduino.h"
 
-#include "TriLight.h"
+#include "LEDStrip.h"
 
 Project* proj;
 int heartBeatCount = 0;
@@ -9,7 +9,7 @@ int heartBeat = HIGH;
 
 void setup() {
   // Choose project here
-  proj = new TriLight();
+  proj = new LEDStrip();
 
   // Basic setup
   Serial.begin(9600);

@@ -1,5 +1,8 @@
 #include "triLed.h"
 
+TriLED::TriLED() {
+}
+
 TriLED::TriLED(int rPin, int gPin, int bPin) {
   TriLED(rPin, gPin, bPin, Color(), 1);
 }

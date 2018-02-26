@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include <color.h>
+#include "../Color/color.h"
 
 #pragma once
 
@@ -29,6 +29,7 @@ class TriLED {
     void setPins(int rPin, int gPin, int bPin);
 
   public:
+    TriLED();
     TriLED(int rPin, int gPin, int bPin);
     TriLED(int rPin, int gPin, int bPin, Color color);
     TriLED(int rPin, int gPin, int bPin, Color color, float brightness);

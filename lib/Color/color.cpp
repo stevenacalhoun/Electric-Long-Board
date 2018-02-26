@@ -27,6 +27,10 @@ bool Color::operator==(Color other) {
   return ((m_r == other.r()) && (m_g == other.g()) && (m_b == other.b()));
 }
 
+bool Color::operator!=(Color other) {
+  return ((m_r != other.r()) || (m_g != other.g()) || (m_b != other.b()));
+}
+
 void Color::rgb(float rVal, float gVal, float bVal) {
   r(rVal);
   g(gVal);

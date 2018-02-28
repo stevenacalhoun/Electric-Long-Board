@@ -1,4 +1,4 @@
-#include "triLed.h"
+#include "triLED.h"
 
 TriLED::TriLED() {
 }
@@ -46,9 +46,9 @@ void TriLED::setColor(Color color, float brightness) {
 }
 
 void TriLED::updateLED() {
-  analogWrite(m_rPin, m_color.r()*m_brightness*m_onStatus);
-  analogWrite(m_gPin, m_color.g()*m_brightness*m_onStatus);
-  analogWrite(m_bPin, m_color.b()*m_brightness*m_onStatus);
+  analogWrite(m_rPin, m_color.r()*(m_brightness*m_onStatus/100.0));
+  analogWrite(m_gPin, m_color.g()*(m_brightness*m_onStatus/100.0));
+  analogWrite(m_bPin, m_color.b()*(m_brightness*m_onStatus/100.0));
 }
 
 void TriLED::turnOn() {

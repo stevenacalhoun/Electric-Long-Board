@@ -9,8 +9,8 @@ LightController::LightController(int rPin, int gPin, int bPin) {
 
 }
 
-LightController::LightController(int rPin, int gPin, int bPin, Color startColor) {
-  currentColor = startColor;
+LightController::LightController(int rPin, int gPin, int bPin, Color color) {
+  currentColor = color;
   led = TriLED(rPin, gPin, bPin, currentColor, 100);
 }
 
@@ -19,22 +19,17 @@ void LightController::setup() {
 }
 
 void LightController::parseI2CColor(String message) {
-  int rVal = message.substring(0, 3).toInt();
-  int gVal = message.substring(4, 7).toInt();
-  int bVal = message.substring(8, 11).toInt();
-  int aVal = message.substring(12, 15).toInt();
+  currentColor = Color(
+    message.substring(0, 3).toInt(),
+    message.substring(4, 7).toInt(),
+    message.substring(8, 11).toInt(),
+  );
 
-  Color messageColor = Color(rVal, gVal, bVal);
-
-  if (messageColor != currentColor) {
-    currentColor = messageColor;
-    led.setColor(currentColor, aVal);
-  }
+  led.setColor(currentColor, message.substring(12, 15).toInt());
 }
 
 void LightController::update() {
   if (i2c.newMessage() ) {
-    String latestMessage = i2c.getLatestMessage();
     parseI2CColor(latestMessage);
   }
 }

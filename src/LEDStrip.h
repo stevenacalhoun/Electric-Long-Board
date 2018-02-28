@@ -25,7 +25,7 @@ LEDStrip::LEDStrip() {
 }
 
 void LEDStrip::setup() {
-  Color startColor = Color(255, 255, 0);
+  Color startColor = Color(0, 255, 0);
   lc = LightController(LED_R_PIN, LED_G_PIN, LED_B_PIN, startColor);
   lc.setup();
 }

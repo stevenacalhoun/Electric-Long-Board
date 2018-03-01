@@ -19,10 +19,12 @@ void LightController::setup() {
 }
 
 void LightController::parseI2CColor(String message) {
+  Serial.println(message);
+
   currentColor = Color(
     message.substring(0, 3).toInt(),
     message.substring(4, 7).toInt(),
-    message.substring(8, 11).toInt(),
+    message.substring(8, 11).toInt()
   );
 
   led.setColor(currentColor, message.substring(12, 15).toInt());
@@ -30,7 +32,7 @@ void LightController::parseI2CColor(String message) {
 
 void LightController::update() {
   if (i2c.newMessage() ) {
-    parseI2CColor(latestMessage);
+    parseI2CColor(i2c.getLatestMessage());
   }
 }
 

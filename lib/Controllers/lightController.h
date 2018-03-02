@@ -23,6 +23,7 @@ class LightController {
   private:
     TriLED led;
     Color currentColor;
+    Color colorTarget;
 
     I2C i2c;
 };

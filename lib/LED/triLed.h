@@ -13,7 +13,7 @@
 class TriLED {
   private:
     // Color and brightness
-    Color m_color;
+
     float m_brightness;
 
     // Pin for each color channel
@@ -34,9 +34,16 @@ class TriLED {
     TriLED(int rPin, int gPin, int bPin, Color color);
     TriLED(int rPin, int gPin, int bPin, Color color, float brightness);
 
+    Color m_color;
+    Color m_targetColor;
+    Color m_previousColor;
+
     void setBrightness(float val);
     void setColor(Color color);
     void setColor(Color color, float brightness);
+
+    void moveToTarget();
+    void setColorTarget(Color targetColor);
 
     void turnOn();
     void turnOff();

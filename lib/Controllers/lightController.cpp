@@ -27,12 +27,16 @@ void LightController::parseI2CColor(String message) {
     message.substring(8, 11).toInt()
   );
 
-  led.setColor(currentColor, message.substring(12, 15).toInt());
+  led.setColorTarget(currentColor);
 }
 
 void LightController::update() {
   if (i2c.newMessage() ) {
     parseI2CColor(i2c.getLatestMessage());
+  }
+
+  if (led.m_color != led.m_targetColor) {
+    led.moveToTarget();
   }
 }
 

@@ -15,8 +15,6 @@ void I2CLED::receiveEvent(String message) {
     m_currentRequest = message;
   }
   else {
-    Serial.println("Parsing new color");
-    Serial.println(message);
     parseI2CColor(message);
   }
 }

@@ -16,9 +16,9 @@ class TriLED {
     int m_onStatus = HIGH;
     float m_transitionSpeed;
 
-    int m_dR;
-    int m_dG;
-    int m_dB;
+    float m_dR;
+    float m_dG;
+    float m_dB;
 
     void writeLEDValues();
 

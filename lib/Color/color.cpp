@@ -1,7 +1,8 @@
 #include "color.h"
 #include "Arduino.h"
 
-// Reset value to 0-255
+#define TOLERANCE 2
+
 float resetBound(float val) {
   if (val < 0) {
     return 0;
@@ -13,6 +14,7 @@ float resetBound(float val) {
     return val;
   }
 }
+
 Color::Color() {
   r(0);
   g(0);
@@ -29,6 +31,18 @@ bool Color::operator==(Color other) {
 
 bool Color::operator!=(Color other) {
   return ((m_r != other.r()) || (m_g != other.g()) || (m_b != other.b()));
+}
+
+bool Color::closeTo(Color other) {
+  bool rClose = false;
+  bool gClose = false;
+  bool bClose = false;
+
+  rClose = (((m_r - TOLERANCE) < other.r()) && (other.r() < (m_r + TOLERANCE)));
+  gClose = (((m_g - TOLERANCE) < other.g()) && (other.g() < (m_g + TOLERANCE)));
+  bClose = (((m_b - TOLERANCE) < other.b()) && (other.b() < (m_b + TOLERANCE)));
+
+  return rClose && gClose && bClose;
 }
 
 void Color::rgb(float rVal, float gVal, float bVal) {

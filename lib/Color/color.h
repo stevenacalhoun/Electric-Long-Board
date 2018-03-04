@@ -13,6 +13,8 @@ class Color {
     bool operator==(Color other);
     bool operator!=(Color other);
 
+    bool closeTo(Color other);
+
     // Getter/setter for each channel
     float r();
     float g();

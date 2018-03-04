@@ -1,12 +1,13 @@
 #include "../lib/Project/project.h"
 
-#include "../lib/Controllers/lightController.h"
+#include "../lib/LED/i2cLED.h"
+#include "../lib/I2C/i2cBus.h"
 
 #pragma once
 
 // Pin defs
-#define LED_R_PIN 9
-#define LED_G_PIN 10
+#define LED_R_PIN 10
+#define LED_G_PIN 9
 #define LED_B_PIN 11
 
 #define BUTTON_PIN 7
@@ -18,18 +19,18 @@ class LEDStrip : public Project {
     void setup();
     void loop();
 
-    LightController lc;
+    I2CBus* bus;
+    I2CLED* led;
 };
 
 LEDStrip::LEDStrip() {
 }
 
 void LEDStrip::setup() {
-  Color startColor = Color(0, 255, 0);
-  lc = LightController(LED_R_PIN, LED_G_PIN, LED_B_PIN, startColor);
-  lc.setup();
+  bus = new I2CBus();
+  led = new I2CLED(LED_R_PIN, LED_G_PIN, LED_B_PIN, Color(0, 0, 0), bus);
 }
 
 void LEDStrip::loop() {
-  lc.update();
+  led->update();
 }

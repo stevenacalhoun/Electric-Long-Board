@@ -54,8 +54,11 @@ float ColorRGB::b() {
 }
 
 ColorHSV ColorRGB::toHSV() {
-  float maxVal = max(max((r()/255), (g()/255)), (b()/255));
-  float minVal = min(min((r()/255), (g()/255)), (b()/255));
+  float rVal = r()/255.0;
+  float gVal = g()/255.0;
+  float bVal = b()/255.0;
+  float maxVal = max(max(rVal, gVal), bVal);
+  float minVal = min(min(rVal, gVal), bVal);
 
   float h = maxVal;
   float s = maxVal;
@@ -67,14 +70,14 @@ ColorHSV ColorRGB::toHSV() {
     h = 0;
   }
   else {
-    if (maxVal == r()/255) {
-      h = ((g()/255) - (b()/255)) / d + ((g()/255)< (b()/255)? 6 : 0);
+    if (maxVal == rVal) {
+      h = (gVal - bVal) / d + (gVal < bVal ? 6 : 0);
     }
-    else if (maxVal == g()/255) {
-      h = ((b()/255)- (r()/255)) / d + 2;
+    else if (maxVal == gVal) {
+      h = (bVal - rVal) / d + 2;
     }
-    else if (maxVal == b()/255) {
-      h = ((r()/255)- (g()/255)) / d + 4;
+    else if (maxVal == bVal) {
+      h = (rVal - gVal) / d + 4;
     }
     h /= 6;
   }

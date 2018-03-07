@@ -22,23 +22,8 @@ void I2CLED::receiveEvent(String message) {
     m_currentColor.v(message.substring(1).toFloat());
     updateLED(m_currentColor.toRGB());
   }
-  else if (message.startsWith("o")) {
-    int onVal = message.substring(1).toInt();
-    //m_led.onState(onVal);
-  }
   else if (message.startsWith("q")) {
     m_currentRequest = message.substring(1, 2);
-  }
-
-  if (message.length() == 1) {
-    Serial.println("Set to get " + message);
-    message = message;
-  }
-  else if (message == "on") {
-    m_led.turnOn();
-  }
-  else if (message == "off") {
-    m_led.turnOff();
   }
 }
 

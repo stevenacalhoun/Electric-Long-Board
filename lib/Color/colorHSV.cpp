@@ -66,41 +66,47 @@ float ColorHSV::v() {
 }
 
 ColorRGB ColorHSV::toRGB() {
-  float r, g, b, f, p, q, t;
-  int i;
+  float r = 0;
+  float g = 0;
+  float b = 0;
 
-  i = floor(h() * 6);
-  f = h() * 6 - i;
-  p = v() * (1 - s());
-  q = v() * (1 - f * s());
-  t = v() * (1 - (1 - f) * s());
-  if (i == 0) {
-    r = v();
+  float hVal = h()/360.0;
+  float sVal = s()/100.0;
+  float vVal = v()/100.0;
+
+  int i = floor(hVal * 6);
+  float f = hVal * 6 - i;
+  float p = vVal * (1 - sVal);
+  float q = vVal * (1 - f * sVal);
+  float t = vVal * (1 - (1 - f) * sVal);
+
+  if (i%6 == 0) {
+    r = vVal;
     g = t;
     b = p;
   }
-  else if (i==1) {
+  else if (i%6 == 1) {
     r = q;
-    g = v();
+    g = vVal;
     b = p;
   }
-  else if (i==2) {
+  else if (i%6 == 2) {
     r = p;
-    g = v();
+    g = vVal;
     b = t;
   }
-  else if(i=3) {
+  else if(i%6 == 3) {
     r = p;
     g = q;
-    b = v();
+    b = vVal;
   }
-  else if(i==4) {
+  else if(i%6 == 4) {
     r = t;
     g = p;
-    b = v();
+    b = vVal;
   }
-  else if(i==5) {
-    r = v();
+  else if(i%6 == 5) {
+    r = vVal;
     g = p;
     b = q;
   }

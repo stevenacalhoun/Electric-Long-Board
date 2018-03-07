@@ -1,7 +1,8 @@
 #include <Arduino.h>
 
 #include "../LED/triLED.h"
-#include "../Color/color.h"
+#include "../Color/colorHSV.h"
+#include "../Color/colorRGB.h"
 #include "../I2C/i2cDevice.h"
 #include "../I2C/i2cBus.h"
 
@@ -10,7 +11,7 @@
 class I2CLED : public I2CDevice  {
   public:
     I2CLED();
-    I2CLED(int rPin, int gPin, int bPin, Color startColor, I2CBus* bus);
+    I2CLED(int rPin, int gPin, int bPin, ColorHSV startColor, I2CBus* bus);
 
     void receiveEvent(String message);
     String requestEvent();
@@ -20,8 +21,10 @@ class I2CLED : public I2CDevice  {
     void update();
 
   private:
-    TriLED led;
-    Color m_currentColor;
+    TriLED m_led;
+    ColorHSV m_currentColor;
+
+    void updateLED(ColorRGB color);
 
     String m_currentRequest;
 };

@@ -1,14 +1,14 @@
 #include "Arduino.h"
-#include "../Color/color.h"
+#include "../Color/colorRGB.h"
 
 #pragma once
 
 // Tri Color LED
 class TriLED {
   private:
-    Color m_currentColor;
-    Color m_targetColor;
-    Color m_previousColor;
+    ColorRGB m_currentColor;
+    ColorRGB m_targetColor;
+    ColorRGB m_previousColor;
 
     int m_rPin;
     int m_gPin;
@@ -24,22 +24,23 @@ class TriLED {
 
   public:
     TriLED();
-    TriLED(int rPin, int gPin, int bPin, Color color, float transitionSpeed);
+    TriLED(int rPin, int gPin, int bPin, ColorRGB color, float transitionSpeed);
 
-    Color getCurrentColor();
-    void setCurrentColor(Color color);
+    ColorRGB getCurrentColor();
+    void setCurrentColor(ColorRGB color);
 
-    Color getPreviousColor();
-    void setPreviousColor(Color previousColor);
+    ColorRGB getPreviousColor();
+    void setPreviousColor(ColorRGB previousColor);
 
-    Color getTargetColor();
-    void setTargetColor(Color targetColor);
+    ColorRGB getTargetColor();
+    void setTargetColor(ColorRGB targetColor);
 
     float getTransitionSpeed();
     void setTransitionSpeed(float transitionSpeed);
 
     void moveToTarget();
 
+    bool getOnState();
     void turnOn();
     void turnOff();
     void toggle();

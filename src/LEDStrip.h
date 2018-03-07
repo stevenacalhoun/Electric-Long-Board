@@ -10,8 +10,6 @@
 #define LED_G_PIN 9
 #define LED_B_PIN 11
 
-#define BUTTON_PIN 7
-
 class LEDStrip : public Project {
   public:
     // Required functions
@@ -28,7 +26,7 @@ LEDStrip::LEDStrip() {
 
 void LEDStrip::setup() {
   bus = new I2CBus();
-  led = new I2CLED(LED_R_PIN, LED_G_PIN, LED_B_PIN, Color(0, 0, 0), bus);
+  led = new I2CLED(LED_R_PIN, LED_G_PIN, LED_B_PIN, ColorHSV(0, 0, 0), bus);
 }
 
 void LEDStrip::loop() {

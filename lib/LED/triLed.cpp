@@ -3,7 +3,7 @@
 TriLED::TriLED() {
 }
 
-TriLED::TriLED(int rPin, int gPin, int bPin, Color color, float transitionSpeed) {
+TriLED::TriLED(int rPin, int gPin, int bPin, ColorRGB color, float transitionSpeed) {
   m_currentColor = color;
   m_targetColor = m_currentColor;
   m_transitionSpeed = transitionSpeed;
@@ -21,20 +21,20 @@ TriLED::TriLED(int rPin, int gPin, int bPin, Color color, float transitionSpeed)
   writeLEDValues();
 }
 
-Color TriLED::getCurrentColor() {
+ColorRGB TriLED::getCurrentColor() {
   return m_currentColor;
 }
 
-void TriLED::setCurrentColor(Color color) {
+void TriLED::setCurrentColor(ColorRGB color) {
   m_currentColor = color;
   turnOn();
 }
 
-Color TriLED::getTargetColor() {
+ColorRGB TriLED::getTargetColor() {
   return m_targetColor;
 }
 
-void TriLED::setTargetColor(Color color) {
+void TriLED::setTargetColor(ColorRGB color) {
   m_previousColor = m_currentColor;
   m_targetColor = color;
 
@@ -43,11 +43,11 @@ void TriLED::setTargetColor(Color color) {
   m_dB = (m_targetColor.b() - m_previousColor.b())*m_transitionSpeed;
 }
 
-Color TriLED::getPreviousColor() {
+ColorRGB TriLED::getPreviousColor() {
   return m_previousColor;
 }
 
-void TriLED::setPreviousColor(Color color) {
+void TriLED::setPreviousColor(ColorRGB color) {
   m_previousColor = color;
 }
 
@@ -73,6 +73,10 @@ void TriLED::moveToTarget() {
   );
 
   writeLEDValues();
+}
+
+bool TriLED::getOnState() {
+  return m_onStatus;
 }
 
 void TriLED::turnOn() {

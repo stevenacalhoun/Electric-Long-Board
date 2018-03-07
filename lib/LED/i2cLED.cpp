@@ -3,61 +3,78 @@
 I2CLED::I2CLED() {
 }
 
-I2CLED::I2CLED(int rPin, int gPin, int bPin, Color color, I2CBus* bus) {
+I2CLED::I2CLED(int rPin, int gPin, int bPin, ColorHSV color, I2CBus* bus) {
   m_currentColor = color;
-  led = TriLED(rPin, gPin, bPin, color, 0.01);
+  m_led = TriLED(rPin, gPin, bPin, color.toRGB(), 0.002);
   bus->registerDevice(0x08, this);
 }
 
 void I2CLED::receiveEvent(String message) {
-  if (message.length() < 10) {
-    Serial.println("Set to get " + message);
-    m_currentRequest = message;
+  if (message.startsWith("h")) {
+    m_currentColor.h(message.substring(1).toFloat());
+    updateLED(m_currentColor.toRGB());
   }
-  else {
-    parseI2CColor(message);
+  else if (message.startsWith("s")) {
+    m_currentColor.s(message.substring(1).toFloat());
+    updateLED(m_currentColor.toRGB());
+  }
+  else if (message.startsWith("v")) {
+    m_currentColor.v(message.substring(1).toFloat());
+    updateLED(m_currentColor.toRGB());
+  }
+  else if (message.startsWith("o")) {
+    int onVal = message.substring(1).toInt();
+    //m_led.onState(onVal);
+  }
+  else if (message.startsWith("q")) {
+    m_currentRequest = message.substring(1, 2);
+  }
+
+  if (message.length() == 1) {
+    Serial.println("Set to get " + message);
+    message = message;
+  }
+  else if (message == "on") {
+    m_led.turnOn();
+  }
+  else if (message == "off") {
+    m_led.turnOff();
   }
 }
 
 String I2CLED::requestEvent() {
-  if (m_currentRequest == "r") {
-    return String(led.getCurrentColor().r());
-  }
-  else if (m_currentRequest == "g") {
-    return String(led.getCurrentColor().g());
-  }
-  else if (m_currentRequest == "b") {
-    return String(led.getCurrentColor().b());
-  }
-  else if (m_currentRequest == "rgb") {
-    String resp = String((int)led.getCurrentColor().r()) + "-" +
-    String((int)led.getCurrentColor().g()) + "-" +
-    String((int)led.getCurrentColor().b());
+  String resp = "Invalid";
+
+  if (m_currentRequest == "h") {
+    resp = String((int)m_currentColor.h());
     return resp;
   }
-  else {
-    return "invalid";
+  else if (m_currentRequest == "s") {
+    resp = String((int)m_currentColor.s());
+    return resp;
   }
+  else if (m_currentRequest == "v" ) {
+    resp = String((int)m_currentColor.v());
+    return resp;
+  }
+  else if (m_currentRequest.startsWith("o")) {
+    //resp = m_led.onState ? "1" : "0";
+  }
+  return resp;
 }
 
-void I2CLED::parseI2CColor(String message) {
-  m_currentColor = Color(
-    message.substring(0, 3).toInt(),
-    message.substring(4, 7).toInt(),
-    message.substring(8, 11).toInt()
-  );
-
-  led.setTargetColor(m_currentColor);
+void I2CLED::updateLED(ColorRGB color) {
+  m_led.setTargetColor(color);
 }
 
 void I2CLED::update() {
-  if (led.getCurrentColor() != led.getTargetColor()) {
-    if (led.getCurrentColor().closeTo(led.getTargetColor())) {
-      led.setCurrentColor(led.getTargetColor());
+  if (m_led.getCurrentColor() != m_led.getTargetColor()) {
+    if (m_led.getCurrentColor().closeTo(m_led.getTargetColor())) {
+      m_led.setCurrentColor(m_led.getTargetColor());
     }
 
     else {
-      led.moveToTarget();
+      m_led.moveToTarget();
     }
   }
 

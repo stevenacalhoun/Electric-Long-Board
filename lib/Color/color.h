@@ -1,29 +1,23 @@
 #pragma once
 
 class Color {
-  private:
-    float m_r;
-    float m_g;
-    float m_b;
+  protected:
+    float m_c1;
+    float m_c2;
+    float m_c3;
 
   public:
     Color();
-    Color(float r, float g, float b);
+    Color(float c1, float c2, float c3);
 
     bool operator==(Color other);
     bool operator!=(Color other);
-
     bool closeTo(Color other);
 
-    // Getter/setter for each channel
-    float r();
-    float g();
-    float b();
-    void r(float val);
-    void g(float val);
-    void b(float val);
-    void rgb(float rVal, float gVal, float bVal);
-
     void print();
+
+    float c1();
+    float c2();
+    float c3();
 };
 

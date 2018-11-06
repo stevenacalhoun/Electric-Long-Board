@@ -1,7 +1,7 @@
 #include <project.h>
 #include "Arduino.h"
 
-#include "LEDStrip.h"
+#include "BLTest.h"
 
 Project* proj;
 int heartBeatCount = 0;
@@ -9,7 +9,7 @@ int heartBeat = HIGH;
 
 void setup() {
   // Choose project here
-  proj = new LEDStrip();
+  proj = new BLTest();
 
   // Basic setup
   Serial.begin(9600);
